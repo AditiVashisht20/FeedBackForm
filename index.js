@@ -1,10 +1,11 @@
+Chart.defaults.global.legend.display = false;
 var ctx = document.getElementById('chart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: ['Sunny', 'Cloudy', 'Partly Cloudy', 'Rainy'],
         datasets: [{
-            label: 'Weather',
+            label: '',
             data: getData(),
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -33,16 +34,15 @@ var myChart = new Chart(ctx, {
     }
 });
 
-
-
-$("#btn").click(function(){
-    const weather= $("#wea").val();
-    console.log(weather);
-    console.log();
+$("#feedBackForm").submit(function(){
+    const weather = $("#wea").val();
     saveLocal(weather);
     myChart.data.datasets[0].data = getData();
     myChart.update();
+    $("#chart").slideDown();
+    return false;
 });
+
 function saveLocal(weather){
     if(localStorage.getItem(weather)==null){
         localStorage.setItem(weather,"1");
