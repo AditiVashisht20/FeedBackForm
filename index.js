@@ -1,7 +1,7 @@
 Chart.defaults.global.legend.display = false;
 var ctx = document.getElementById('chart').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: ['Sunny', 'Cloudy', 'Partly Cloudy', 'Rainy'],
         datasets: [{
@@ -20,7 +20,8 @@ var myChart = new Chart(ctx, {
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
             ],
-            borderWidth: 1
+            borderWidth: 1,
+            fill : false
         }]
     },
     options: {
@@ -34,7 +35,7 @@ var myChart = new Chart(ctx, {
     }
 });
 
-$("#feedBackForm").submit(function(){
+$("#feedBackForm").submit(function () {
     const weather = $("#wea").val();
     saveLocal(weather);
     myChart.data.datasets[0].data = getData();
@@ -43,12 +44,12 @@ $("#feedBackForm").submit(function(){
     return false;
 });
 
-function saveLocal(weather){
-    if(localStorage.getItem(weather)==null){
-        localStorage.setItem(weather,"1");
+function saveLocal(weather) {
+    if (localStorage.getItem(weather) == null) {
+        localStorage.setItem(weather, "1");
     }
-    else{
-        localStorage.setItem(weather,parseInt(localStorage.getItem(weather))+1);
+    else {
+        localStorage.setItem(weather, parseInt(localStorage.getItem(weather)) + 1);
     }
 }
 function getData() {
@@ -56,3 +57,22 @@ function getData() {
     return data;
 }
 
+$(document).ready(function () {
+    // console.log(formatDate(new Date().toDateString()));
+
+    $('#datePicker').val(formatDate(new Date().toDateString()));
+});
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
